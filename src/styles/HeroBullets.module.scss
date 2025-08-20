@@ -1,0 +1,65 @@
+.inner {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-top: calc(var(--mantine-spacing-xl) * 4);
+    padding-bottom: calc(var(--mantine-spacing-xl) * 4);
+
+    /* Unter md => Spalten untereinander */
+    @media (max-width: 62rem) {
+        flex-direction: column;
+    }
+}
+
+.content {
+    max-width: 480px;
+    margin-right: calc(var(--mantine-spacing-xl) * 3);
+
+    @media (max-width: 62rem) {
+        max-width: 100%;
+        margin-right: 0;
+    }
+}
+
+.title {
+    color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+    font-family: Outfit, var(--mantine-font-family);
+    font-size: 44px;
+    line-height: 1.2;
+    font-weight: 500;
+    margin: 0;
+
+    @media (max-width: 36rem) {
+        font-size: 28px;
+    }
+}
+
+.control {
+
+    /* Buttons vollbreit auf sehr kleinen Screens */
+    @media (max-width: 36rem) {
+        flex: 1;
+    }
+}
+
+.image {
+    flex: 0 0 420px;
+    min-width: 0;
+
+    @media (max-width: 48em) {
+        /* Statt display:none einfach zentrieren und Höhe anpassen */
+        flex: unset;
+        width: 100%;
+        height: 300px;
+        /* kleiner für Handy */
+        margin-top: var(--mantine-spacing-lg);
+    }
+}
+
+
+.highlight {
+    position: relative;
+    background-color: var(--mantine-color-blue-light);
+    border-radius: var(--mantine-radius-sm);
+    padding: 4px 12px;
+}
