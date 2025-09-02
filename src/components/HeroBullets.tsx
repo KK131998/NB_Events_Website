@@ -5,22 +5,23 @@ import classes from '../styles/HeroBullets.module.scss';
 
 export default function HeroBullets() {
     return (
-        <Container size="md">
+        <Container size="lg">
             <div className={classes.inner}>
                 {/* Linke Spalte: Text */}
                 <div className={classes.content}>
                     <Title className={classes.title}>
-                        NB Events - <span> Kneipenquize in deiner Umgebung</span>
+                        NB Events - <span> Dein Abend. Dein Team. Dein Quiz </span>
                     </Title>
 
                     <Text c="dimmed" mt="md">
-                        Alle kommenden Termine & Highlights auf einen Blick.
+                        Willkommen bei NBEvents – wir bringen Köpfe zum Rauchen, Herzen zum Lachen und Tische zum Beben!
+                        Ob in deiner Lieblingskneipe, bei einem Vereinsabend oder als Firmenevent – unsere Kneipenquiz-Veranstaltungen sind mehr als nur ein Spiel. Sie sind ein Erlebnis, das Freundeskreise zusammenschweißt, Teams herausfordert und jede Menge Spaß garantiert.
                     </Text>
 
                     <List mt={30} spacing="sm" size="sm" icon={<ThemeIcon size={20} radius="xl" />}>
-                        <List.Item><b>Jeden Donnerstag</b> – neue Fragen, neue Musikrunden</List.Item>
-                        <List.Item><b>Teams</b> – tretet gemeinsam gegen andere an</List.Item>
-                        <List.Item><b>Preise & Ruhm</b> – klaro 😉</List.Item>
+                        <List.Item><b>Regelmäßig neue Fragen</b></List.Item>
+                        <List.Item><b>Wechselnde Themenrunden</b></List.Item>
+                        <List.Item><b>Gewinne, die sich sehen lassen können – und mindestens ewigen Ruhm im Freundeskreis</b></List.Item>
                     </List>
 
                 </div>

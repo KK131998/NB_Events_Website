@@ -4,7 +4,7 @@ import {
     NumberInput, TextInput, Select, Divider, Alert
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react"; // ⬅️ useEffect/useMemo
 
 export type Termin = {
     event_id: string;
@@ -18,31 +18,50 @@ export type Termin = {
     freieTeams?: number;
 };
 
-const API = 'https://script.google.com/macros/s/AKfycbw6DxwGKi0IrXa6cVaCbxzsHF3f_Yd4MislibP-uD7AdywxwD4YEDu_iBC4Llfuw-Sk/exec';
+const API = 'https://script.google.com/macros/s/AKfycbyrT4fOaLDYC4_58WrpeY-3x2r3snNL4JLxygFrLvzUWyBvBbfmOD_xPvsZM7P2BPZ_/exec';
 
 export default function TermineListe({ termine }: { termine: Termin[] }) {
     const [opened, { open, close }] = useDisclosure(false);
     const [sel, setSel] = useState<Termin | null>(null);
 
     const [teamname, setTeamname] = useState("");
-    const [anzahl, setAnzahl] = useState<number | ''>(2);
+    const [anzahl, setAnzahl] = useState<number | ''>(3);
     const [email, setEmail] = useState("");
     const [telefon, setTelefon] = useState("");
     const [zahlweise, setZahlweise] = useState<string | null>("Bar vor Ort");
+    const [preisGesamt, setPreisGesamt] = useState<number | ''>(0);
     const [loading, setLoading] = useState(false);
     const [err, setErr] = useState<string | null>(null);
     const [ok, setOk] = useState(false);
 
     const resetForm = () => {
-        setTeamname(""); setAnzahl(2); setEmail(""); setZahlweise("Bar vor Ort");
-        setTelefon("");                // ⬅️ neu
-        setErr(null); setOk(false);
+        setTeamname("");
+        setAnzahl(3);                    // konsistent zu Default
+        setEmail("");
+        setZahlweise("Bar vor Ort");
+        setTelefon("");
+        setErr(null);
+        setOk(false);
     };
+
+    // hübsches Euro-Format
+    const eur = useMemo(
+        () => new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" }),
+        []
+    );
+
+    // 🔢 Gesamtpreis live berechnen sobald Termin oder Anzahl ändern
+    useEffect(() => {
+        if (sel && typeof sel.preis_pro_person === "number" && typeof anzahl === "number") {
+            setPreisGesamt(sel.preis_pro_person * anzahl);
+        } else {
+            setPreisGesamt('');
+        }
+    }, [sel, anzahl]);
+
 
     async function submit() {
         if (!sel) return;
-
-        // Falls event_id fehlt: Mapping in Startseite.tsx prüfen (event_id: ev.id)
         if (!sel.event_id) {
             setErr("Fehler: event_id fehlt. Bitte Mapping in Startseite.tsx ergänzen.");
             return;
@@ -53,42 +72,36 @@ export default function TermineListe({ termine }: { termine: Termin[] }) {
         setOk(false);
 
         try {
-            // ✅ FormData statt JSON – KEINE eigenen Header setzen
             const form = new FormData();
             form.append("route", "register");
             form.append("event_id", sel.event_id);
             form.append("anzahl_personen", String(anzahl));
-            form.append("bezahlt", "nein"); // oder "true" wenn bezahlt
+            form.append("bezahlt", "nein");
             form.append("team_name", teamname.trim());
             form.append("kontakt_email", email.trim());
             if (telefon.trim()) form.append("telefon", telefon.trim());
             if (zahlweise) form.append("zahlweise", zahlweise);
-
-            // optional, hilfreich beim Debuggen im Sheet:
-            // form.append("source", "nb-events-frontend");
-
-            const res = await fetch(API, { method: "POST", body: form }); // keine headers!
-            // Manche Apps‑Script-Fehler kommen mit 200 zurück – immer JSON prüfen:
+            if (typeof preisGesamt === "number") {
+                form.append("betrag_gesamt", String(preisGesamt)); // ⬅️ optional fürs Sheet
+            }
+            console.log(form);
+            const res = await fetch(API, { method: "POST", body: form });
             let json: any = {};
-            try { json = await res.json(); } catch { /* falls kein JSON zurückkommt */ }
+            try { json = await res.json(); } catch { }
 
             if (!res.ok || json?.error || json?.ok === false) {
                 const msg = json?.error || `HTTP ${res.status}`;
                 throw new Error(msg);
             }
 
-            // ✅ Erfolg
             setOk(true);
-
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
-
+            setTimeout(() => { window.location.reload(); }, 1000);
         } catch (e: any) {
             setErr(e?.message || "Senden fehlgeschlagen.");
         } finally {
             setLoading(false);
         }
+
     }
 
     return (
@@ -102,6 +115,7 @@ export default function TermineListe({ termine }: { termine: Termin[] }) {
                             <Text fw={600} mt="sm">{t.kneipe}</Text>
                             <Text c="dimmed" size="sm">{t.ort}</Text>
                             {t.thema && <Text size="sm" mt="xs">{t.thema}</Text>}
+                            <Text size="sm" mt="xs">Preis pro Person: {t.preis_pro_person} €</Text>
                             {typeof t.freieTeams === 'number' &&
                                 <Badge mt="xs" color={ausverkauft ? "red" : "teal"}>
                                     {ausverkauft ? "Ausverkauft" : `${t.freieTeams} Plätze frei`}
@@ -130,21 +144,20 @@ export default function TermineListe({ termine }: { termine: Termin[] }) {
 
                         <TextInput
                             label="Teamname"
-                            placeholder="Die Quizraketen"
                             required
                             value={teamname}
                             onChange={(e) => setTeamname(e.currentTarget.value)}
                         />
                         <NumberInput
                             label="Anzahl Personen"
-                            min={3} max={10}
+                            min={3} max={7}
                             value={anzahl}
                             onChange={(val) => {
                                 if (val === '' || val === null || val === undefined) {
                                     setAnzahl('');
                                     return;
                                 }
-                                const num = typeof val === 'number' ? val : parseInt(val, 10);
+                                const num = typeof val === 'number' ? val : parseInt(val as any, 10);
                                 setAnzahl(Number.isNaN(num) ? '' : num);
                             }}
                         />
@@ -171,8 +184,16 @@ export default function TermineListe({ termine }: { termine: Termin[] }) {
                             required
                         />
 
+                        {/* 💶 gut sichtbare Preis-Zusammenfassung */}
+                        {typeof sel.preis_pro_person === "number" && typeof anzahl === "number" && (
+                            <Alert color="blue" variant="light" mt="md">
+                                Gesamtpreis: <strong>{eur.format(sel.preis_pro_person * anzahl)}</strong>{" "}
+                                ({anzahl} × {eur.format(sel.preis_pro_person)})
+                            </Alert>
+                        )}
+
                         {err && <Alert color="red">{err}</Alert>}
-                        {ok && <Alert color="green">Reservierung eingegangen! Nikki bestätigt per E-Mail.</Alert>}
+                        {ok && <Alert color="green">Reservierung eingegangen! Wir bestätigen per E-Mail.</Alert>}
 
                         <Group justify="flex-end" mt="sm">
                             <Button variant="default" onClick={close}>Schließen</Button>

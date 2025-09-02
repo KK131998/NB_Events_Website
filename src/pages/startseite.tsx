@@ -8,11 +8,13 @@ import TermineListe from "../components/TermineListe";
 import Kontaktformular from "../components/Kontaktformular";
 import Footer from "../components/FooterSocial";
 import FAQ from "../components/FaqSimple";
+import UeberUns from "../components/UeberUns";
+import Mitmachen from "../components/Mitmachen";
 
 // Deine API-URL
 
 
-const API = 'https://script.google.com/macros/s/AKfycbw6DxwGKi0IrXa6cVaCbxzsHF3f_Yd4MislibP-uD7AdywxwD4YEDu_iBC4Llfuw-Sk/exec';
+const API = 'https://script.google.com/macros/s/AKfycbyrT4fOaLDYC4_58WrpeY-3x2r3snNL4JLxygFrLvzUWyBvBbfmOD_xPvsZM7P2BPZ_/exec';
 
 export default function Startseite() {
     const [events, setEvents] = useState<any[] | null>(null);
@@ -28,6 +30,9 @@ export default function Startseite() {
 
                 if (!eventsRes.ok) throw new Error(`Events HTTP Fehler ${eventsRes.status}`);
                 const eventsData = await eventsRes.json();
+
+                console.log("angekommende Daten:", eventsData);
+
 
                 // Events ins passende Format bringen
                 const mappedEvents = eventsData.map((ev: any) => ({
@@ -46,7 +51,9 @@ export default function Startseite() {
                     neu_angemeldet_teams: ev.neu_angemeldet_teams,
                     thema: ev.beschreibung,
                     preis_pro_person: ev.preisproperson ?? null,
-                    freieTeams: ev.max_teams - (ev.dauergaeste_teams + ev.neu_angemeldet_teams)
+                    freieTeams: ev.max_teams - (ev.dauergaeste_teams + ev.neu_angemeldet_teams),
+                    bild_url: ev.bild_url,
+                    website_url: ev.website_url,
                 }));
 
                 setEvents(mappedEvents);
@@ -70,7 +77,10 @@ export default function Startseite() {
 
                 <Hero />
 
-                <Title id="anmeldung">Aktuelle Termine:</Title>
+                <Title id="mitmachen"></Title>
+                <Mitmachen />
+
+                <Title id="anmeldung"></Title>
                 {loading && <Center><Loader /></Center>}
                 {error && <Text c="red">{error}</Text>}
                 {events && <TermineListe termine={events} />}
@@ -78,10 +88,13 @@ export default function Startseite() {
                 <Title id="standorte">Standorte:</Title>
                 {events && <Carousel events={events} />}
 
-                <Title id="faq">FAQ:</Title>
+                <Title id="ueberuns"></Title>
+                <UeberUns />
+
+                <Title id="faq"></Title>
                 <FAQ />
 
-                <Title id="kontakt">Kontakt:</Title>
+                <Title id="kontakt"></Title>
                 <Kontaktformular />
 
                 <Footer />

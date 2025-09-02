@@ -4,15 +4,24 @@ import { useMediaQuery } from '@mantine/hooks';
 import classes from '../styles/CardsCarousel.module.css';
 import '@mantine/core/styles.css';
 import '@mantine/carousel/styles.css';
+import { useMemo } from 'react'; // ⬅️ neu
 
 interface CardProps {
     image: string;
     title: string;
     category: string;
+    url: string;
 }
 
+const TEMPLATES = [
+    "/kneipen_template_10.jpg",
+];
 
-function Card({ image, title, category }: CardProps) {
+const pickRandomTemplate = () =>
+    TEMPLATES[Math.floor(Math.random() * TEMPLATES.length)];
+
+
+function Card({ image, title, category, url }: CardProps) {
     return (
         <Paper
             shadow="md"
@@ -29,7 +38,15 @@ function Card({ image, title, category }: CardProps) {
                     {title}
                 </Title>
             </div>
-            <Button variant="white" color="dark">
+            <Button
+                variant="white"
+                color="dark"
+                component="a"
+                href={url || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                disabled={!url}
+            >
                 Zur Webseite
             </Button>
         </Paper>
@@ -38,11 +55,19 @@ function Card({ image, title, category }: CardProps) {
 
 export default function CardsCarousel({ events = [] }: { events: any[] }) {
 
-    const slidesData = events.map((ev) => ({
-        image: ev.bild_url ?? '/kneipen_template.jpg',
-        title: ev.kneipe,
-        category: `${ev.ort}, ${ev.adresse}`,
-    }));
+    const slidesData = useMemo(() => {
+        return events.map((ev: any, i: number) => {
+            const src = (ev.bild_url ?? '').trim();
+            const image = src ? src : pickRandomTemplate(); // ⬅️ random Fallback
+            return {
+                image,
+                title: ev.kneipe,
+                category: `${ev.ort}, ${ev.adresse}`,
+                url: ev.website_url ?? undefined,
+                key: `${ev.kneipe ?? 'ev'}-${i}`, // stabiler key
+            };
+        });
+    }, [events]);
 
     const theme = useMantineTheme();
     const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);

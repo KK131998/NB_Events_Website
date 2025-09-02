@@ -3,10 +3,11 @@ import { Container, Group, Anchor, Button, Burger, Drawer, Stack, Text } from "@
 import { useDisclosure } from "@mantine/hooks";
 
 const LINKS = [
-    { label: "FAQ", href: "#faq" },
-    { label: "Anmeldung", href: "#anmeldung" },
-    { label: "Kontakt", href: "#kontakt" },
+    { label: "Anmeldung", href: "#mitmachen" },
     { label: "Standorte", href: "#standorte" },
+    { label: "Über Uns", href: "#ueberuns" },
+    { label: "FAQ", href: "#faq" },
+    { label: "Kontakt", href: "#kontakt" }
 ];
 
 export default function GBTHeader() {
