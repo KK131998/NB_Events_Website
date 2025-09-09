@@ -14,7 +14,7 @@ import Mitmachen from "../components/Mitmachen";
 // Deine API-URL
 
 
-const API = 'https://script.google.com/macros/s/AKfycbyrT4fOaLDYC4_58WrpeY-3x2r3snNL4JLxygFrLvzUWyBvBbfmOD_xPvsZM7P2BPZ_/exec';
+const API = 'https://script.google.com/macros/s/AKfycbz8_KeA1-PjWUey4dtJgeVZ7NKidhqUl6iNzS1WmmgKdzUP5t0vcUfj7dTTbxhnejb9/exec';
 
 export default function Startseite() {
     const [events, setEvents] = useState<any[] | null>(null);

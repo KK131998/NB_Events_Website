@@ -18,7 +18,8 @@ export type Termin = {
     freieTeams?: number;
 };
 
-const API = 'https://script.google.com/macros/s/AKfycbyrT4fOaLDYC4_58WrpeY-3x2r3snNL4JLxygFrLvzUWyBvBbfmOD_xPvsZM7P2BPZ_/exec';
+const API = 'https://script.google.com/macros/s/AKfycbz8_KeA1-PjWUey4dtJgeVZ7NKidhqUl6iNzS1WmmgKdzUP5t0vcUfj7dTTbxhnejb9/exec';
+
 
 export default function TermineListe({ termine }: { termine: Termin[] }) {
     const [opened, { open, close }] = useDisclosure(false);
@@ -84,7 +85,6 @@ export default function TermineListe({ termine }: { termine: Termin[] }) {
             if (typeof preisGesamt === "number") {
                 form.append("betrag_gesamt", String(preisGesamt)); // ⬅️ optional fürs Sheet
             }
-            console.log(form);
             const res = await fetch(API, { method: "POST", body: form });
             let json: any = {};
             try { json = await res.json(); } catch { }
