@@ -70,15 +70,15 @@ export default function Kontaktformular() {
             <div className={classes.wrapper}>
                 <div className={classes.contacts} style={{ background: 'linear-gradient(135deg, #ced8e0ff 0%, #717476ff 100%)' }}>
                     <Text fz="lg" fw={700} c="black" mb="xl">Kontakt</Text>
-
+                    {/*
                     <Group gap="xs" align="center" mb="md" wrap="nowrap">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="black" viewBox="0 0 24 24"><path d="M3 5.75C3 4.784 3.784 4 4.75 4h2.982c.848 0 1.58.593 1.736 1.427l.661 3.436a1.75 1.75 0 01-.448 1.542l-1.37 1.37a14.23 14.23 0 006.379 6.379l1.37-1.37c.414-.414 1.012-.59 1.542-.448l3.436.661A1.75 1.75 0 0120 18.268V21.25c0 .966-.784 1.75-1.75 1.75h-.5C9.268 23 1 14.732 1 4.75v-.5z" /></svg>
                         <Text size="sm" fw={500} c="black">+49 176 12345678</Text>
                     </Group>
-
+                        */}
                     <Group gap="xs" align="center" wrap="nowrap">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="black" viewBox="0 0 24 24"><path d="M2.25 4.5A2.25 2.25 0 014.5 2.25h15a2.25 2.25 0 012.25 2.25v15a2.25 2.25 0 01-2.25 2.25h-15A2.25 2.25 0 012.25 19.5v-15zM4.5 4.5l7.5 7.5 7.5-7.5h-15zm0 2.121V19.5h15V6.621l-7.072 7.071a.75.75 0 01-1.06 0L4.5 6.621z" /></svg>
-                        <Text size="sm" fw={500} c="black">Nikki.Binn@kneipenquiz.org</Text>
+                        <Text size="sm" fw={500} c="black">NB.Events@Web.de</Text>
                     </Group>
                 </div>
 
