@@ -22,7 +22,7 @@ export default function FooterSocial() {
                         <IconBrandInstagram size={18} stroke={1.5} />
                     </ActionIcon>
 
-                    {/* Impressum & Datenschutz */}
+                    {/* Impressum & Datenschutz 
                     <Anchor
                         href="/impressum"
                         size="sm"
@@ -39,6 +39,7 @@ export default function FooterSocial() {
                     >
                         Datenschutz
                     </Anchor>
+                    */}
                 </Group>
             </Container>
         </div>
