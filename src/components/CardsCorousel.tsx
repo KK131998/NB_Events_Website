@@ -13,8 +13,9 @@ interface CardProps {
     url: string;
 }
 
+const base = import.meta.env.BASE_URL || '/';
 const TEMPLATES = [
-    "/kneipen_template_10.jpg",
+    `${base}kneipen_template_10.jpg`,
 ];
 
 const pickRandomTemplate = () =>
