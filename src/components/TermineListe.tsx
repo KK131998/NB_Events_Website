@@ -16,9 +16,10 @@ export type Termin = {
     thema?: string;
     preis_pro_person?: number | null;
     freieTeams?: number;
+    tickets_online_reservierbar: string;
 };
 
-const API = 'https://script.google.com/macros/s/AKfycbyH76J145YFg-AtfLb66nQ_oh68FxeYkHfLzPfw7QqxP298J1lOsNRxa5LEEaYe0Ieo/exec';
+const API = 'https://script.google.com/macros/s/AKfycbxkr-RVpzWCmmWLoA_ZmpA5SQen8us3rMRgyd3PhIsHnQ-l8IyJPxlRMeUMdqIetYFm/exec';
 
 
 export default function TermineListe({ termine }: { termine: Termin[] }) {
@@ -109,25 +110,52 @@ export default function TermineListe({ termine }: { termine: Termin[] }) {
             <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>
                 {termine.map((t, i) => {
                     const ausverkauft = (t.freieTeams ?? 0) <= 0;
+                    const online = !t.tickets_online_reservierbar ||
+                        t.tickets_online_reservierbar.toLowerCase() !== 'nein';
                     return (
                         <Card key={`${t.datum}-${t.kneipe}-${i}`} withBorder radius="md" padding="lg">
                             <Badge variant="light">{t.datum} · {t.uhrzeit} Uhr</Badge>
                             <Text fw={600} mt="sm">{t.kneipe}</Text>
                             <Text c="dimmed" size="sm">{t.ort}</Text>
                             {t.thema && <Text size="sm" mt="xs">{t.thema}</Text>}
-                            <Text size="sm" mt="xs">Preis pro Person: {t.preis_pro_person} €</Text>
-                            {typeof t.freieTeams === 'number' &&
-                                <Badge mt="xs" color={ausverkauft ? "red" : "teal"}>
-                                    {ausverkauft ? "Ausverkauft" : `${t.freieTeams} Plätze frei`}
-                                </Badge>}
-                            <Button
-                                mt="md"
-                                variant="light"
-                                disabled={ausverkauft}
-                                onClick={() => { setSel(t); resetForm(); open(); }}
-                            >
-                                {ausverkauft ? "Ausverkauft" : "Jetzt anmelden"}
-                            </Button>
+                            {online ? (
+                                <>
+                                    <Text size="sm" mt="xs">
+                                        Preis pro Person: {t.preis_pro_person} €
+                                    </Text>
+                                    {typeof t.freieTeams === "number" && (
+                                        <Badge mt="xs" color={ausverkauft ? "red" : "teal"}>
+                                            {ausverkauft ? "Ausverkauft" : `${t.freieTeams} Plätze frei`}
+                                        </Badge>
+                                    )}
+                                    <Button
+                                        mt="md"
+                                        variant="light"
+                                        disabled={ausverkauft}
+                                        onClick={() => {
+                                            setSel(t);
+                                            resetForm();
+                                            open();
+                                        }}
+                                    >
+                                        {ausverkauft ? "Ausverkauft" : "Jetzt anmelden"}
+                                    </Button>
+                                </>
+                            ) : (
+                                <>
+                                    <Text size="sm" mt="xs">
+                                        Preis pro Person: {t.preis_pro_person} €
+                                    </Text>
+                                    <Button
+                                        mt="md"
+                                        variant="light"
+                                        disabled
+                                        style={{ color: "white" }}
+                                    >
+                                        {ausverkauft ? "Ausverkauft" : "Tickets vor Ort erhältlich"}
+                                    </Button>
+                                </>
+                            )}
                         </Card>
                     );
                 })}

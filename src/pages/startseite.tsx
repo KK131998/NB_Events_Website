@@ -14,7 +14,7 @@ import Mitmachen from "../components/Mitmachen";
 // Deine API-URL
 
 
-const API = 'https://script.google.com/macros/s/AKfycbyH76J145YFg-AtfLb66nQ_oh68FxeYkHfLzPfw7QqxP298J1lOsNRxa5LEEaYe0Ieo/exec';
+const API = 'https://script.google.com/macros/s/AKfycbxkr-RVpzWCmmWLoA_ZmpA5SQen8us3rMRgyd3PhIsHnQ-l8IyJPxlRMeUMdqIetYFm/exec';
 
 export default function Startseite() {
     const [events, setEvents] = useState<any[] | null>(null);
@@ -54,6 +54,7 @@ export default function Startseite() {
                     freieTeams: ev.max_teams - (ev.dauergaeste_teams + ev.neu_angemeldet_teams),
                     bild_url: ev.bild_url,
                     website_url: ev.website_url,
+                    tickets_online_reservierbar: ev.tickets_online_reservierbar
                 }));
 
                 setEvents(mappedEvents);
