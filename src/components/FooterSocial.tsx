@@ -1,5 +1,5 @@
 import { IconBrandInstagram } from '@tabler/icons-react';
-import { ActionIcon, Container, Group, Anchor } from '@mantine/core';
+import { ActionIcon, Container, Group } from '@mantine/core';
 import classes from '../styles/FooterSocial.module.scss';
 
 export default function FooterSocial() {
