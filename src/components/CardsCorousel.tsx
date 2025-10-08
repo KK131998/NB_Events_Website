@@ -58,7 +58,10 @@ export default function CardsCarousel({ events = [] }: { events: any[] }) {
     const slidesData = useMemo(() => {
         return events.map((ev: any, i: number) => {
             const src = (ev.bild_url ?? '').trim();
-            const image = src ? src : pickRandomTemplate(); // ⬅️ random Fallback
+            const image = src.startsWith('http')
+                ? src
+                : `${import.meta.env.BASE_URL}${src || pickRandomTemplate()}`;
+            // ⬅️ random Fallback
             return {
                 image,
                 title: ev.kneipe,
