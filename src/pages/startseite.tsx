@@ -31,9 +31,6 @@ export default function Startseite() {
                 if (!eventsRes.ok) throw new Error(`Events HTTP Fehler ${eventsRes.status}`);
                 const eventsData = await eventsRes.json();
 
-                console.log("angekommende Daten:", eventsData);
-
-
                 // Events ins passende Format bringen
                 const mappedEvents = eventsData.map((ev: any) => ({
                     event_id: ev.id,
@@ -58,8 +55,7 @@ export default function Startseite() {
                 }));
 
                 setEvents(mappedEvents);
-                // hier könntest du auch z. B. setTeams(teamsData) und setRegistrations(registrationsData) machen
-                console.log("Events:", mappedEvents);
+
 
             } catch (err) {
                 setError(String(err));
