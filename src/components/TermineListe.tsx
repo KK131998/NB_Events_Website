@@ -62,7 +62,7 @@ export default function TermineListe({ termine }: { termine: Termin[] }) {
       setHoveredImage(null);
       setOverlayClosing(false);
       closeTimeoutRef.current = null;
-    }, 280);
+    }, 380);
   };
 
   const resetForm = () => {
@@ -173,17 +173,7 @@ export default function TermineListe({ termine }: { termine: Termin[] }) {
             const online =
               !t.tickets_online_reservierbar ||
               t.tickets_online_reservierbar.toLowerCase() !== "nein";
-            const isLieblingsplatz = t.kneipe
-              ?.toLowerCase()
-              .includes("lieblingsplatz");
-            const baseUrl = import.meta.env.BASE_URL || "/";
-            const imageSrc = isLieblingsplatz
-              ? "/quizzenswert.jpeg"
-              : t.bild_url?.trim().startsWith("http")
-                ? t.bild_url
-                : t.bild_url
-                  ? `${baseUrl}${t.bild_url}`
-                  : null;
+            const imageSrc = "/quizzenswert.jpeg";
 
             return (
               <Card
@@ -193,9 +183,8 @@ export default function TermineListe({ termine }: { termine: Termin[] }) {
                 radius="lg"
                 padding={0}
               >
-                {imageSrc && (
-                  <div
-                    className={`${classes.cardImageWrapper} ${isLieblingsplatz ? classes.cardImageWrapperPoster : ""} ${classes.cardImageHover}`}
+                <div
+                    className={`${classes.cardImageWrapper} ${classes.cardImageWrapperPoster} ${classes.cardImageHover}`}
                     onMouseEnter={() => {
                       if (hoverTimeoutRef.current) {
                         clearTimeout(hoverTimeoutRef.current);
@@ -217,7 +206,6 @@ export default function TermineListe({ termine }: { termine: Termin[] }) {
                     />
                     <span className={classes.hoverHint}>Bild vergrößern</span>
                   </div>
-                )}
                 <div className={classes.cardContent}>
                   <Group justify="space-between" wrap="nowrap" mb="sm">
                     <Group gap="xs">
