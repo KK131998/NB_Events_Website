@@ -173,7 +173,8 @@ export default function TermineListe({ termine }: { termine: Termin[] }) {
             const online =
               !t.tickets_online_reservierbar ||
               t.tickets_online_reservierbar.toLowerCase() !== "nein";
-            const imageSrc = "/quizzenswert.jpeg";
+            const base = import.meta.env.BASE_URL || "/";
+            const imageSrc = `${base.replace(/\/?$/, "/")}quizzenswert.jpeg`;
 
             return (
               <Card

@@ -1,22 +1,27 @@
 .footer {
-    margin-top: 120px;
-    border-top: 1px solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5));
+  margin-top: 120px;
+  border-top: 1px solid light-dark(rgba(234, 88, 12, 0.15), rgba(245, 158, 11, 0.2));
 }
 
 .inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: var(--mantine-spacing-xl);
-    padding-bottom: var(--mantine-spacing-xl);
-
-    @media (max-width: var(--mantine-breakpoint-xs)) {
-        flex-direction: column;
-    }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: var(--mantine-spacing-xl);
+  padding-bottom: var(--mantine-spacing-xl);
 }
 
 .links {
-    @media (max-width: var(--mantine-breakpoint-xs)) {
-        margin-top: var(--mantine-spacing-md);
-    }
+  gap: var(--mantine-spacing-xl);
+}
+
+.link {
+  color: light-dark(var(--mantine-color-gray-6), var(--mantine-color-gray-5));
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: light-dark(#ea580c, #f59e0b);
+  }
 }
