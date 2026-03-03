@@ -1,65 +1,139 @@
-.inner {
-    display: flex;
-    justify-content: space-between;
-    gap: 2rem;
-    padding-top: calc(var(--mantine-spacing-xl) * 4);
-    padding-bottom: calc(var(--mantine-spacing-xl) * 4);
+.hero {
+    position: relative;
+    margin: 0 calc(-1 * var(--mantine-spacing-lg));
+    padding: 0 var(--mantine-spacing-lg);
+    overflow: hidden;
 
-    /* Unter md => Spalten untereinander */
+    @media (max-width: 62rem) {
+        margin: 0 calc(-1 * var(--mantine-spacing-md));
+        padding: 0 var(--mantine-spacing-md);
+    }
+}
+
+.heroBg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        light-dark(rgba(234, 88, 12, 0.04), rgba(245, 158, 11, 0.06)) 0%,
+        light-dark(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0.02)) 50%,
+        transparent 100%
+    );
+    pointer-events: none;
+}
+
+.inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+    padding-top: calc(var(--mantine-spacing-xl) * 3);
+    padding-bottom: calc(var(--mantine-spacing-xl) * 4);
+    min-height: min(85vh, 680px);
+
     @media (max-width: 62rem) {
         flex-direction: column;
+        gap: 2rem;
+        padding-top: calc(var(--mantine-spacing-xl) * 2);
+        padding-bottom: calc(var(--mantine-spacing-xl) * 3);
+        min-height: auto;
     }
 }
 
 .content {
-    max-width: 480px;
-    margin-right: calc(var(--mantine-spacing-xl) * 3);
+    flex: 1;
+    max-width: 520px;
+    z-index: 1;
 
     @media (max-width: 62rem) {
         max-width: 100%;
-        margin-right: 0;
+        text-align: center;
     }
 }
 
+.eyebrow {
+    color: light-dark(#ea580c, #f59e0b);
+    letter-spacing: 0.12em;
+    margin-bottom: 0.5rem;
+}
+
 .title {
-    color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+    color: light-dark(var(--mantine-color-dark-9), var(--mantine-color-gray-0));
     font-family: Outfit, var(--mantine-font-family);
-    font-size: 44px;
-    line-height: 1.2;
-    font-weight: 500;
+    font-size: clamp(32px, 5vw, 48px);
+    line-height: 1.15;
+    font-weight: 600;
     margin: 0;
+    letter-spacing: -0.02em;
 
     @media (max-width: 36rem) {
         font-size: 28px;
     }
 }
 
-.control {
+.highlight {
+    background: linear-gradient(
+        110deg,
+        light-dark(#b45309, #fbbf24) 0%,
+        light-dark(#ea580c, #f59e0b) 50%,
+        light-dark(#f59e0b, #fcd34d) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
 
-    /* Buttons vollbreit auf sehr kleinen Screens */
-    @media (max-width: 36rem) {
-        flex: 1;
+.subtitle {
+    font-size: 1.05rem;
+    line-height: 1.65;
+}
+
+.list {
+    @media (max-width: 62rem) {
+        margin-inline: auto;
+        max-width: 320px;
+    }
+}
+
+.cta {
+    font-weight: 600;
+    box-shadow: 0 4px 14px 0 rgba(234, 88, 12, 0.35);
+
+    @media (max-width: 62rem) {
+        width: 100%;
     }
 }
 
 .image {
-    flex: 0 0 420px;
+    flex: 0 0 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     min-width: 0;
 
-    @media (max-width: 48em) {
-        /* Statt display:none einfach zentrieren und Höhe anpassen */
-        flex: unset;
+    @media (max-width: 62rem) {
+        flex: none;
         width: 100%;
-        height: 300px;
-        /* kleiner für Handy */
-        margin-top: var(--mantine-spacing-lg);
+        max-width: 360px;
+        margin: 0 auto;
+    }
+
+    @media (max-width: 48em) {
+        max-width: 280px;
     }
 }
 
-
-.highlight {
-    position: relative;
-    background-color: var(--mantine-color-blue-light);
-    border-radius: var(--mantine-radius-sm);
-    padding: 4px 12px;
+.logoWrapper {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 24px;
+    padding: var(--mantine-spacing-lg);
+    background: light-dark(
+        rgba(234, 88, 12, 0.06),
+        rgba(245, 158, 11, 0.08)
+    );
+    box-shadow:
+        0 0 0 1px light-dark(rgba(0, 0, 0, 0.04), rgba(255, 255, 255, 0.08)),
+        0 24px 48px -12px light-dark(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.3));
 }

@@ -1,0 +1,58 @@
+.section {
+  padding: var(--mantine-spacing-xl) 0;
+}
+
+.header {
+  text-align: center;
+}
+
+.eyebrow {
+  color: light-dark(#ea580c, #f59e0b);
+  letter-spacing: 0.12em;
+  margin-bottom: 0.25rem;
+}
+
+.title {
+  color: light-dark(var(--mantine-color-dark-9), var(--mantine-color-gray-0));
+  font-family: Outfit, var(--mantine-font-family);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 600;
+  margin: 0;
+}
+
+.step {
+  position: relative;
+  border: 1px solid light-dark(rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.08));
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.2));
+  }
+}
+
+.stepNum {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  color: light-dark(rgba(234, 88, 12, 0.15), rgba(245, 158, 11, 0.2));
+  font-family: Outfit, var(--mantine-font-family);
+}
+
+.footer {
+  text-align: center;
+  padding-top: var(--mantine-spacing-md);
+}
+
+.cta {
+  font-weight: 600;
+  background: linear-gradient(135deg, #ea580c, #f59e0b);
+  box-shadow: 0 4px 14px 0 rgba(234, 88, 12, 0.35);
+
+  &:hover {
+    filter: brightness(1.05);
+  }
+}

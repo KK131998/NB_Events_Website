@@ -82,16 +82,12 @@ export default function Startseite() {
                 {error && <Text c="red">{error}</Text>}
                 {events && <TermineListe termine={events} />}
 
-                <Title id="standorte">Standorte:</Title>
                 {events && <Carousel events={events} />}
 
-                <Title id="ueberuns"></Title>
                 <UeberUns />
 
-                <Title id="faq"></Title>
                 <FAQ />
 
-                <Title id="kontakt"></Title>
                 <Kontaktformular />
 
                 <Footer />

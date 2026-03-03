@@ -1,0 +1,97 @@
+.section {
+  padding: var(--mantine-spacing-xl) 0;
+}
+
+.header {
+  margin-bottom: var(--mantine-spacing-xl);
+}
+
+.eyebrow {
+  color: light-dark(#ea580c, #f59e0b);
+  letter-spacing: 0.12em;
+  margin-bottom: 0.25rem;
+}
+
+.title {
+  color: light-dark(var(--mantine-color-dark-9), var(--mantine-color-gray-0));
+  font-family: Outfit, var(--mantine-font-family);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 600;
+  margin: 0;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  height: 660px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.3) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  padding: var(--mantine-spacing-lg);
+  width: 100%;
+}
+
+.category {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.cardTitle {
+  color: var(--mantine-color-white);
+  font-family: Outfit, var(--mantine-font-family);
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  margin: 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.cta {
+  margin-top: var(--mantine-spacing-sm);
+  font-weight: 600;
+  background: linear-gradient(135deg, #ea580c, #f59e0b);
+  color: white !important;
+  box-shadow: 0 4px 14px 0 rgba(234, 88, 12, 0.4);
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.1);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+  }
+}
+
+.indicators {
+  button {
+    background: light-dark(#ea580c, #f59e0b);
+  }
+}

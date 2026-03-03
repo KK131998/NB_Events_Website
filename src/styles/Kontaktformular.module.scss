@@ -1,0 +1,72 @@
+.section {
+  padding: var(--mantine-spacing-xl) 0;
+}
+
+.header {
+  text-align: center;
+}
+
+.eyebrow {
+  color: light-dark(#ea580c, #f59e0b);
+  letter-spacing: 0.12em;
+  margin-bottom: 0.25rem;
+}
+
+.title {
+  color: light-dark(var(--mantine-color-dark-9), var(--mantine-color-gray-0));
+  font-family: Outfit, var(--mantine-font-family);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 600;
+  margin: 0;
+}
+
+.card {
+  border: 1px solid light-dark(rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.08));
+  overflow: hidden;
+}
+
+.inner {
+  display: flex;
+  gap: 0;
+
+  @media (min-width: 48em) {
+    gap: var(--mantine-spacing-xl);
+  }
+
+  @media (max-width: 48em) {
+    flex-direction: column;
+  }
+}
+
+.contactInfo {
+  flex: 0 0 260px;
+  padding: var(--mantine-spacing-xl);
+  background: light-dark(
+    rgba(234, 88, 12, 0.06),
+    rgba(245, 158, 11, 0.08)
+  );
+  border-right: 1px solid light-dark(rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.08));
+
+  @media (max-width: 48em) {
+    flex: none;
+    border-right: none;
+    border-bottom: 1px solid light-dark(rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.08));
+    text-align: center;
+  }
+}
+
+.form {
+  flex: 1;
+  padding: var(--mantine-spacing-xl);
+  min-width: 0;
+}
+
+.submitBtn {
+  font-weight: 600;
+  background: linear-gradient(135deg, #ea580c, #f59e0b);
+  box-shadow: 0 4px 14px 0 rgba(234, 88, 12, 0.35);
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.05);
+  }
+}

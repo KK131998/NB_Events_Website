@@ -1,0 +1,32 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: saturate(180%) blur(10px);
+  background: light-dark(rgba(255, 255, 255, 0.8), rgba(26, 27, 30, 0.8));
+  border-bottom: 1px solid light-dark(rgba(234, 88, 12, 0.12), rgba(245, 158, 11, 0.15));
+}
+
+
+.link {
+  color: light-dark(var(--mantine-color-dark-7), var(--mantine-color-gray-4));
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: light-dark(#ea580c, #f59e0b);
+  }
+}
+
+.cta {
+  font-weight: 600;
+  background: linear-gradient(135deg, #ea580c, #f59e0b);
+  box-shadow: 0 2px 8px rgba(234, 88, 12, 0.3);
+
+  &:hover {
+    filter: brightness(1.05);
+  }
+}
+
+.brand {
+  font-family: Outfit, var(--mantine-font-family);
+}
