@@ -1,7 +1,7 @@
 // src/pages/Startseite.tsx
 import { useState, useEffect } from "react";
 import { Container, Title, Stack, Text, Loader, Center } from "@mantine/core";
-import Header from "../components/GBTHeader"
+import Header from "../components/GBTHeader";
 import Hero from "../components/HeroBullets";
 import Carousel from "../components/CardsCorousel";
 import TermineListe from "../components/TermineListe";
@@ -11,87 +11,116 @@ import FAQ from "../components/FaqSimple";
 import UeberUns from "../components/UeberUns";
 import Mitmachen from "../components/Mitmachen";
 
-// Deine API-URL
+// PocketBase Collections:
+// 1. "kneipen"       → name, picture, address, city, website_url
+// 2. "kneipenquizze" → datetime, price, picture, venue (relation zu kneipen)
 
+const PB_URL = import.meta.env.VITE_PB_URL ?? "http://127.0.0.1:8090";
 
-const API = 'https://script.google.com/macros/s/AKfycbxkr-RVpzWCmmWLoA_ZmpA5SQen8us3rMRgyd3PhIsHnQ-l8IyJPxlRMeUMdqIetYFm/exec';
+function buildPbFileUrl(
+  collection: string,
+  recordId: string,
+  fileName?: string | null,
+) {
+  if (!fileName) return undefined;
+  const base = PB_URL.replace(/\/+$/, "");
+  return `${base}/api/files/${collection}/${recordId}/${encodeURIComponent(
+    fileName,
+  )}`;
+}
 
 export default function Startseite() {
-    const [events, setEvents] = useState<any[] | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+  const [events, setEvents] = useState<any[] | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        async function loadData() {
-            try {
-                const [eventsRes,] = await Promise.all([
-                    fetch(`${API}?route=events&ts=${Date.now()}`),
-                ]);
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const res = await fetch(
+          `${PB_URL.replace(/\/+$/, "")}/api/collections/kneipenquizze/records?page=1&perPage=200&sort=datetime&expand=venue`,
+        );
 
-                if (!eventsRes.ok) throw new Error(`Events HTTP Fehler ${eventsRes.status}`);
-                const eventsData = await eventsRes.json();
-
-                // Events ins passende Format bringen
-                const mappedEvents = eventsData.map((ev: any) => ({
-                    event_id: ev.id,
-                    datum: ev.datum
-                        ? new Date(ev.datum).toLocaleDateString("de-DE", { weekday: "short", day: "2-digit", month: "2-digit", year: "numeric" })
-                        : "",
-                    uhrzeit: ev.uhrzeit
-                        ? new Date(ev.uhrzeit).toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" })
-                        : "",
-                    ort: ev.ort,
-                    adresse: ev.adresse,
-                    kneipe: ev.kneipe,
-                    max_teams: ev.max_teams,
-                    dauergaeste_teams: ev.dauergaeste_teams,
-                    neu_angemeldet_teams: ev.neu_angemeldet_teams,
-                    thema: ev.beschreibung,
-                    preis_pro_person: ev.preisproperson ?? null,
-                    freieTeams: ev.max_teams - (ev.dauergaeste_teams + ev.neu_angemeldet_teams),
-                    bild_url: ev.bild_url,
-                    website_url: ev.website_url,
-                    tickets_online_reservierbar: ev.tickets_online_reservierbar
-                }));
-
-                setEvents(mappedEvents);
-
-
-            } catch (err) {
-                setError(String(err));
-            } finally {
-                setLoading(false);
-            }
+        if (!res.ok) {
+          throw new Error(`Events HTTP Fehler ${res.status}`);
         }
 
-        loadData();
-    }, []);
+        const data = await res.json();
+        const items: any[] = data.items ?? data.records ?? [];
 
-    return (
-        <Container size="lg" py="xl">
-            <Stack gap="md">
-                <Header />
+        const mappedEvents = items.map((ev: any) => {
+          const dt = ev.datetime ? new Date(ev.datetime) : null;
+          const timeLabel =
+            typeof ev.datetime === "string"
+              ? (ev.datetime.match(/(\d{2}:\d{2})/)?.[1] ?? "")
+              : "";
+          const venue = ev.expand?.venue;
+          const venueRecord = Array.isArray(venue) ? venue[0] : venue;
 
-                <Hero />
+          return {
+            event_id: ev.id,
+            datum: dt
+              ? dt.toLocaleDateString("de-DE", {
+                  weekday: "short",
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })
+              : "",
+            uhrzeit: timeLabel,
+            ort: venueRecord?.city ?? "",
+            adresse: venueRecord?.address ?? "",
+            kneipe: venueRecord?.name ?? "",
+            preis_pro_person: ev.price ?? null,
+            bild_url:
+              (buildPbFileUrl("kneipenquizze", ev.id, ev.picture) ??
+              venueRecord?.picture)
+                ? buildPbFileUrl("kneipen", venueRecord.id, venueRecord.picture)
+                : undefined,
+            website_url: venueRecord?.website_url ?? undefined,
+          };
+        });
 
-                <Title id="mitmachen"></Title>
-                <Mitmachen />
+        setEvents(mappedEvents);
+      } catch (err) {
+        setError(String(err));
+      } finally {
+        setLoading(false);
+      }
+    }
 
-                <Title id="anmeldung"></Title>
-                {loading && <Center><Loader /></Center>}
-                {error && <Text c="red">{error}</Text>}
-                {events && <TermineListe termine={events} />}
+    loadData();
+  }, []);
 
-                {events && <Carousel events={events} />}
+  return (
+    <Container size="lg" py="xl">
+      <Stack gap="md">
+        <Header />
 
-                <UeberUns />
+        <Hero />
 
-                <FAQ />
+        <Title id="mitmachen"></Title>
+        <Mitmachen />
 
-                <Kontaktformular />
+        <Title id="anmeldung"></Title>
+        {loading && (
+          <Center>
+            <Loader />
+          </Center>
+        )}
+        {error && <Text c="red">{error}</Text>}
+        {events && <TermineListe termine={events} />}
 
-                <Footer />
-            </Stack>
-        </Container>
-    );
+        {events && <Carousel events={events} />}
+
+        <UeberUns />
+
+        <FAQ />
+
+        <Kontaktformular />
+
+        <Footer />
+      </Stack>
+    </Container>
+  );
 }
