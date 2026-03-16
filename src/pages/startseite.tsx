@@ -57,6 +57,16 @@ export default function Startseite() {
           const venue = ev.expand?.venue;
           const venueRecord = Array.isArray(venue) ? venue[0] : venue;
 
+          const eventPictureUrl = buildPbFileUrl(
+            "kneipenquizze",
+            ev.id,
+            ev.picture,
+          );
+          const venuePictureUrl =
+            venueRecord && venueRecord.picture
+              ? buildPbFileUrl("kneipen", venueRecord.id, venueRecord.picture)
+              : undefined;
+
           return {
             event_id: ev.id,
             datum: dt
@@ -72,11 +82,10 @@ export default function Startseite() {
             adresse: venueRecord?.address ?? "",
             kneipe: venueRecord?.name ?? "",
             preis_pro_person: ev.price ?? null,
-            bild_url:
-              (buildPbFileUrl("kneipenquizze", ev.id, ev.picture) ??
-              venueRecord?.picture)
-                ? buildPbFileUrl("kneipen", venueRecord.id, venueRecord.picture)
-                : undefined,
+            // Bild fürs Termin-Poster (Event-spezifisch)
+            bild_url: eventPictureUrl,
+            // Bild für Standorte-Carousel (Kneipenbild)
+            kneipen_bild_url: venuePictureUrl,
             website_url: venueRecord?.website_url ?? undefined,
           };
         });

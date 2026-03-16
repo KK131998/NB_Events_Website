@@ -12,6 +12,8 @@ export type Termin = {
   ort: string;
   adresse?: string;
   preis_pro_person?: number | null;
+  bild_url?: string;
+  kneipen_bild_url?: string;
 };
 
 export default function TermineListe({ termine }: { termine: Termin[] }) {
@@ -65,7 +67,8 @@ export default function TermineListe({ termine }: { termine: Termin[] }) {
         <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} className={classes.grid}>
           {termine.map((t, i) => {
             const base = import.meta.env.BASE_URL || "/";
-            const imageSrc = `${base.replace(/\/?$/, "/")}quizzenswert.jpeg`;
+            const fallbackSrc = `${base.replace(/\/?$/, "/")}quizzenswert.jpeg`;
+            const imageSrc = t.bild_url || fallbackSrc;
 
             return (
               <Card

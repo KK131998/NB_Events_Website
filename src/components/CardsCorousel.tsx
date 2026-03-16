@@ -12,12 +12,6 @@ interface CardProps {
   url: string;
 }
 
-const base = import.meta.env.BASE_URL || "/";
-const TEMPLATES = [`${base}kneipen_template_10.jpg`];
-
-const pickRandomTemplate = () =>
-  TEMPLATES[Math.floor(Math.random() * TEMPLATES.length)];
-
 function LocationCard({ image, title, category, url }: CardProps) {
   return (
     <Paper
@@ -61,10 +55,10 @@ export default function CardsCarousel({ events = [] }: { events: any[] }) {
         return true;
       })
       .map((ev: any, i: number) => {
-        const src = "lieblingsplatz.jpeg".trim();
-        const image = src.startsWith("http")
-          ? src
-          : `${import.meta.env.BASE_URL}${src || pickRandomTemplate()}`;
+        const base = import.meta.env.BASE_URL || "/";
+        const fallbackSrc = `${base.replace(/\/?$/, "/")}lieblingsplatz.jpeg`;
+        // für das Carousel verwenden wir explizit das Kneipenbild
+        const image = ev.kneipen_bild_url || fallbackSrc;
         const category = [ev.ort, ev.adresse].filter(Boolean).join(", ") || "–";
         return {
           image,
