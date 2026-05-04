@@ -4,6 +4,9 @@ import { IconCalendar, IconMapPin } from "@tabler/icons-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import classes from "../styles/TermineListe.module.scss";
 
+const EVENTIM_LIGHT_URL =
+  "https://www.eventim-light.com/de/a/69f708bb6f158d3637e4c20c/iframe/";
+
 export type Termin = {
   event_id: string;
   datum: string;
@@ -133,8 +136,12 @@ export default function TermineListe({ termine }: { termine: Termin[] }) {
                     variant="light"
                     color="orange"
                     fullWidth
+                    component="a"
+                    href={EVENTIM_LIGHT_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    Tickets vor Ort
+                    Jetzt Tickets kaufen
                   </Button>
                 </div>
               </Card>

@@ -23,7 +23,7 @@ const STEPS = [
     icon: IconEdit,
     num: "2",
     title: "Anmelden",
-    text: "Melde dich über Instagram oder hol dir Tickets direkt vor Ort",
+    text: "Kaufe dir die Tickets online oder hol dir Tickets direkt vor Ort",
   },
   {
     icon: IconClock,

@@ -37,8 +37,13 @@ export default function Startseite() {
   useEffect(() => {
     async function loadData() {
       try {
+        const now = new Date();
+        const todayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+        const filter = encodeURIComponent(
+          `datetime >= "${todayKey} 00:00:00"`,
+        );
         const res = await fetch(
-          `${PB_URL.replace(/\/+$/, "")}/api/collections/kneipenquizze/records?page=1&perPage=200&sort=datetime&expand=venue`,
+          `${PB_URL.replace(/\/+$/, "")}/api/collections/kneipenquizze/records?page=1&perPage=200&sort=datetime&expand=venue&filter=${filter}`,
         );
 
         if (!res.ok) {
@@ -69,6 +74,7 @@ export default function Startseite() {
 
           return {
             event_id: ev.id,
+            event_datetime: ev.datetime ?? "",
             datum: dt
               ? dt.toLocaleDateString("de-DE", {
                   weekday: "short",
@@ -90,6 +96,7 @@ export default function Startseite() {
           };
         });
 
+        console.log("MappedEvents:", mappedEvents);
         setEvents(mappedEvents);
       } catch (err) {
         setError(String(err));
@@ -97,7 +104,7 @@ export default function Startseite() {
         setLoading(false);
       }
     }
-
+    console.log("Events:", events);
     loadData();
   }, []);
 
