@@ -14,6 +14,7 @@ import {
   Title,
 } from "@mantine/core";
 import { IconMail } from "@tabler/icons-react";
+import { submitContact } from "../lib/submitContact";
 import classes from "../styles/Kontaktformular.module.scss";
 
 type Status = {
@@ -53,36 +54,20 @@ export default function Kontaktformular() {
     setStatus({ type: "loading" });
 
     try {
-      const formData = new FormData();
-      formData.append(
-        "access_key",
-        "371551ae-f927-4e1e-a55a-32b511a9f7a9"
-      );
-      formData.append("Website:", "NB-Events - Kontaktformular");
-      formData.append("name", name.trim());
-      formData.append("email", email.trim());
-      formData.append("subject", subject.trim());
-      formData.append("message", message.trim());
-
-      const res = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: formData,
+      await submitContact({
+        name: name.trim(),
+        email: email.trim(),
+        subject: subject.trim(),
+        message: message.trim(),
       });
-
-      const data = await res.json();
-
-      if (data.success) {
-        setStatus({
-          type: "success",
-          message: "Danke! Deine Nachricht wurde versendet.",
-        });
-        setName("");
-        setEmail("");
-        setSubject("");
-        setMessage("");
-      } else {
-        throw new Error(data.message || "Senden fehlgeschlagen.");
-      }
+      setStatus({
+        type: "success",
+        message: "Danke! Deine Nachricht wurde versendet.",
+      });
+      setName("");
+      setEmail("");
+      setSubject("");
+      setMessage("");
     } catch (err: unknown) {
       setStatus({
         type: "error",

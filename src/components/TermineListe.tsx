@@ -1,5 +1,13 @@
 // src/components/TermineListe.tsx
-import { Button, Card, Container, Group, SimpleGrid, Text, Title } from "@mantine/core";
+import {
+  Button,
+  Card,
+  Container,
+  Group,
+  SimpleGrid,
+  Text,
+  Title,
+} from "@mantine/core";
 import { IconCalendar, IconMapPin } from "@tabler/icons-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import classes from "../styles/TermineListe.module.scss";
@@ -17,6 +25,7 @@ export type Termin = {
   preis_pro_person?: number | null;
   bild_url?: string;
   kneipen_bild_url?: string;
+  online_kaufbar?: boolean;
 };
 
 export default function TermineListe({ termine }: { termine: Termin[] }) {
@@ -131,18 +140,30 @@ export default function TermineListe({ termine }: { termine: Termin[] }) {
                     </Text>
                   )}
 
-                  <Button
-                    mt="lg"
-                    variant="light"
-                    color="orange"
-                    fullWidth
-                    component="a"
-                    href={EVENTIM_LIGHT_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Jetzt Tickets kaufen
-                  </Button>
+                  {t.online_kaufbar ? (
+                    <Button
+                      mt="lg"
+                      variant="light"
+                      color="orange"
+                      fullWidth
+                      component="a"
+                      href={EVENTIM_LIGHT_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Jetzt Tickets kaufen
+                    </Button>
+                  ) : (
+                    <Button
+                      mt="lg"
+                      variant="light"
+                      color="gray"
+                      fullWidth
+                      disabled
+                    >
+                      Tickets vor Ort
+                    </Button>
+                  )}
                 </div>
               </Card>
             );

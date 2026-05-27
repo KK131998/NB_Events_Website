@@ -5,7 +5,7 @@ import Header from "../components/GBTHeader";
 import Hero from "../components/HeroBullets";
 import Carousel from "../components/CardsCorousel";
 import TermineListe from "../components/TermineListe";
-import Kontaktformular from "../components/Kontaktformular";
+//import Kontaktformular from "../components/ContactBlock";
 import Footer from "../components/FooterSocial";
 import FAQ from "../components/FaqSimple";
 import UeberUns from "../components/UeberUns";
@@ -13,7 +13,7 @@ import Mitmachen from "../components/Mitmachen";
 
 // PocketBase Collections:
 // 1. "kneipen"       → name, picture, address, city, website_url
-// 2. "kneipenquizze" → datetime, price, picture, venue (relation zu kneipen)
+// 2. "kneipenquizze" → datetime, price, picture, venue, online_kaufbar (bool)
 
 const PB_URL = import.meta.env.VITE_PB_URL ?? "http://127.0.0.1:8090";
 
@@ -39,9 +39,7 @@ export default function Startseite() {
       try {
         const now = new Date();
         const todayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-        const filter = encodeURIComponent(
-          `datetime >= "${todayKey} 00:00:00"`,
-        );
+        const filter = encodeURIComponent(`datetime >= "${todayKey} 00:00:00"`);
         const res = await fetch(
           `${PB_URL.replace(/\/+$/, "")}/api/collections/kneipenquizze/records?page=1&perPage=200&sort=datetime&expand=venue&filter=${filter}`,
         );
@@ -93,6 +91,7 @@ export default function Startseite() {
             // Bild für Standorte-Carousel (Kneipenbild)
             kneipen_bild_url: venuePictureUrl,
             website_url: venueRecord?.website_url ?? undefined,
+            online_kaufbar: ev.online_kaufbar === true,
           };
         });
 
@@ -133,7 +132,7 @@ export default function Startseite() {
 
         <FAQ />
 
-        <Kontaktformular />
+        {/*<Kontaktformular />*/}
 
         <Footer />
       </Stack>
