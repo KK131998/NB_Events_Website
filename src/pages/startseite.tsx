@@ -1,19 +1,13 @@
-// src/pages/Startseite.tsx
 import { useState, useEffect } from "react";
-import { Container, Title, Stack, Text, Loader, Center } from "@mantine/core";
+import { Text, Loader, Center } from "@mantine/core";
 import Header from "../components/GBTHeader";
 import Hero from "../components/HeroBullets";
 import Carousel from "../components/CardsCorousel";
 import TermineListe from "../components/TermineListe";
-//import Kontaktformular from "../components/ContactBlock";
 import Footer from "../components/FooterSocial";
 import FAQ from "../components/FaqSimple";
 import UeberUns from "../components/UeberUns";
 import Mitmachen from "../components/Mitmachen";
-
-// PocketBase Collections:
-// 1. "kneipen"       → name, picture, address, city, website_url
-// 2. "kneipenquizze" → datetime, price, picture, venue, online_kaufbar (bool)
 
 const PB_URL = import.meta.env.VITE_PB_URL ?? "http://127.0.0.1:8090";
 
@@ -86,16 +80,13 @@ export default function Startseite() {
             adresse: venueRecord?.address ?? "",
             kneipe: venueRecord?.name ?? "",
             preis_pro_person: ev.price ?? null,
-            // Bild fürs Termin-Poster (Event-spezifisch)
             bild_url: eventPictureUrl,
-            // Bild für Standorte-Carousel (Kneipenbild)
             kneipen_bild_url: venuePictureUrl,
             website_url: venueRecord?.website_url ?? undefined,
             online_kaufbar: ev.online_kaufbar === true,
           };
         });
 
-        console.log("MappedEvents:", mappedEvents);
         setEvents(mappedEvents);
       } catch (err) {
         setError(String(err));
@@ -103,27 +94,27 @@ export default function Startseite() {
         setLoading(false);
       }
     }
-    console.log("Events:", events);
     loadData();
   }, []);
 
   return (
-    <Container size="lg" py="xl">
-      <Stack gap="md">
-        <Header />
-
+    <>
+      <Header />
+      <main>
         <Hero />
 
-        <Title id="mitmachen"></Title>
         <Mitmachen />
 
-        <Title id="anmeldung"></Title>
         {loading && (
-          <Center>
-            <Loader />
+          <Center py="xl">
+            <Loader color="orange" />
           </Center>
         )}
-        {error && <Text c="red">{error}</Text>}
+        {error && (
+          <Center>
+            <Text c="red">{error}</Text>
+          </Center>
+        )}
         {events && <TermineListe termine={events} />}
 
         {events && <Carousel events={events} />}
@@ -131,11 +122,8 @@ export default function Startseite() {
         <UeberUns />
 
         <FAQ />
-
-        {/*<Kontaktformular />*/}
-
-        <Footer />
-      </Stack>
-    </Container>
+      </main>
+      <Footer />
+    </>
   );
 }

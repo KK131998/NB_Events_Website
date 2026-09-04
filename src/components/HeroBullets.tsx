@@ -1,5 +1,5 @@
 // src/components/HeroBullets.tsx
-import { Container, List, Text, ThemeIcon, Title } from "@mantine/core";
+import { Button, Container, Group, List, Text, ThemeIcon, Title } from "@mantine/core";
 import { IconRefresh, IconPalette, IconTrophy } from "@tabler/icons-react";
 import NikkiLogoPlaneScene from "./NikkiLogoPlane";
 import classes from "../styles/HeroBullets.module.scss";
@@ -7,9 +7,9 @@ import classes from "../styles/HeroBullets.module.scss";
 export default function HeroBullets() {
   return (
     <section className={classes.hero}>
+      <div className={classes.heroBg} />
       <Container size="lg">
         <div className={classes.inner}>
-          {/* Linke Spalte: Text */}
           <div className={classes.content}>
             <Text
               className={classes.eyebrow}
@@ -22,7 +22,7 @@ export default function HeroBullets() {
             </Text>
             <Title className={classes.title} order={1}>
               NB Events –{" "}
-              <span className={classes.title}>
+              <span className={classes.highlight}>
                 Dein Abend. Dein Team. Dein Quiz.
               </span>
             </Title>
@@ -76,10 +76,33 @@ export default function HeroBullets() {
                 Gewinne & ewiger Ruhm im Freundeskreis
               </List.Item>
             </List>
+            <Group mt="xl" gap="sm" className={classes.actions}>
+              <Button
+                component="a"
+                href="/#termine"
+                size="md"
+                radius="xl"
+                className={classes.cta}
+              >
+                Termine ansehen
+              </Button>
+              <Button
+                component="a"
+                href="/#mitmachen"
+                size="md"
+                radius="xl"
+                variant="outline"
+                color="orange"
+                className={classes.ctaGhost}
+              >
+                So funktioniert’s
+              </Button>
+            </Group>
           </div>
-          {/* Rechte Spalte: drehendes Logo */}
           <div className={classes.image}>
-            <NikkiLogoPlaneScene />
+            <div className={classes.logoWrapper}>
+              <NikkiLogoPlaneScene />
+            </div>
           </div>
         </div>
       </Container>

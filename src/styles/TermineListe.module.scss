@@ -1,5 +1,5 @@
 .section {
-  padding: var(--mantine-spacing-xl) 0;
+  padding: calc(var(--mantine-spacing-xl) * 2.25) 0;
 }
 
 .header {
@@ -7,17 +7,18 @@
 }
 
 .eyebrow {
-  color: light-dark(#ea580c, #f59e0b);
-  letter-spacing: 0.12em;
+  color: #fbbf24;
+  letter-spacing: 0.16em;
   margin-bottom: 0.25rem;
 }
 
 .title {
-  color: light-dark(var(--mantine-color-dark-9), var(--mantine-color-gray-0));
+  color: var(--mantine-color-gray-0);
   font-family: Outfit, var(--mantine-font-family);
-  font-size: clamp(1.5rem, 4vw, 2rem);
-  font-weight: 600;
+  font-size: clamp(1.5rem, 4vw, 2.15rem);
+  font-weight: 700;
   margin: 0;
+  letter-spacing: -0.03em;
 }
 
 .grid {
@@ -28,12 +29,14 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border: 1px solid light-dark(rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.08));
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: rgba(26, 23, 20, 0.72);
+  border: 1px solid rgba(245, 158, 11, 0.14);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.2));
+    transform: translateY(-4px);
+    border-color: rgba(245, 158, 11, 0.35);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
   }
 }
 
@@ -43,12 +46,28 @@
   aspect-ratio: 3 / 4;
   min-height: 320px;
   overflow: hidden;
-  background: light-dark(rgba(0, 0, 0, 0.04), rgba(255, 255, 255, 0.04));
+  background: rgba(255, 255, 255, 0.03);
   cursor: zoom-in;
 }
 
 .cardImageHover:hover .hoverHint {
   opacity: 1;
+}
+
+.dateBadge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 1;
+  background: rgba(12, 10, 9, 0.82);
+  backdrop-filter: blur(8px);
+  color: #fbbf24;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  letter-spacing: 0.02em;
 }
 
 .hoverHint {
@@ -166,7 +185,7 @@
 }
 
 .icon {
-  color: light-dark(#ea580c, #f59e0b);
+  color: #f59e0b;
   opacity: 0.9;
 }
 
@@ -174,12 +193,24 @@
   font-family: Outfit, var(--mantine-font-family);
 }
 
+.price {
+  color: #fbbf24;
+}
+
 .cta {
   font-weight: 600;
   background: linear-gradient(135deg, #ea580c, #f59e0b);
   box-shadow: 0 4px 14px 0 rgba(234, 88, 12, 0.35);
 
-  &:hover {
+  &:hover:not(:disabled) {
     filter: brightness(1.05);
   }
+}
+
+.empty {
+  text-align: center;
+  padding: calc(var(--mantine-spacing-xl) * 2);
+  border: 1px dashed rgba(245, 158, 11, 0.25);
+  border-radius: var(--mantine-radius-lg);
+  background: rgba(26, 23, 20, 0.4);
 }

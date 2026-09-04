@@ -59,7 +59,7 @@ export default function TermineListe({ termine }: { termine: Termin[] }) {
   );
 
   return (
-    <section className={classes.section}>
+    <section id="termine" className={classes.section}>
       <Container size="lg">
         <div className={classes.header}>
           <Text
@@ -76,6 +76,12 @@ export default function TermineListe({ termine }: { termine: Termin[] }) {
           </Title>
         </div>
 
+        {termine.length === 0 && (
+          <div className={classes.empty}>
+            <Text c="dimmed">Aktuell sind keine Termine geplant. Schau bald wieder vorbei!</Text>
+          </div>
+        )}
+
         <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} className={classes.grid}>
           {termine.map((t, i) => {
             const base = import.meta.env.BASE_URL || "/";
@@ -86,7 +92,6 @@ export default function TermineListe({ termine }: { termine: Termin[] }) {
               <Card
                 key={`${t.datum}-${t.kneipe}-${i}`}
                 className={classes.card}
-                withBorder
                 radius="lg"
                 padding={0}
               >
@@ -106,6 +111,9 @@ export default function TermineListe({ termine }: { termine: Termin[] }) {
                     }, 150);
                   }}
                 >
+                  <span className={classes.dateBadge}>
+                    {t.datum} · {t.uhrzeit} Uhr
+                  </span>
                   <img
                     src={imageSrc}
                     alt={t.kneipe}
@@ -135,7 +143,7 @@ export default function TermineListe({ termine }: { termine: Termin[] }) {
                   </Group>
 
                   {typeof t.preis_pro_person === "number" && (
-                    <Text size="sm" fw={500} mt="sm">
+                    <Text size="sm" fw={600} mt="sm" className={classes.price}>
                       {eur.format(t.preis_pro_person)} pro Person
                     </Text>
                   )}
@@ -143,13 +151,12 @@ export default function TermineListe({ termine }: { termine: Termin[] }) {
                   {t.online_kaufbar ? (
                     <Button
                       mt="lg"
-                      variant="light"
-                      color="orange"
                       fullWidth
                       component="a"
                       href={EVENTIM_LIGHT_URL}
                       target="_blank"
                       rel="noopener noreferrer"
+                      className={classes.cta}
                     >
                       Jetzt Tickets kaufen
                     </Button>

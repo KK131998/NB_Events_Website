@@ -1,5 +1,5 @@
 .section {
-  padding: var(--mantine-spacing-xl) 0;
+  padding: calc(var(--mantine-spacing-xl) * 2.25) 0;
 }
 
 .header {
@@ -7,21 +7,23 @@
 }
 
 .eyebrow {
-  color: light-dark(#ea580c, #f59e0b);
-  letter-spacing: 0.12em;
+  color: #fbbf24;
+  letter-spacing: 0.16em;
   margin-bottom: 0.25rem;
 }
 
 .title {
-  color: light-dark(var(--mantine-color-dark-9), var(--mantine-color-gray-0));
+  color: var(--mantine-color-gray-0);
   font-family: Outfit, var(--mantine-font-family);
-  font-size: clamp(1.5rem, 4vw, 2rem);
-  font-weight: 600;
+  font-size: clamp(1.5rem, 4vw, 2.15rem);
+  font-weight: 700;
   margin: 0;
+  letter-spacing: -0.03em;
 }
 
 .card {
-  border: 1px solid light-dark(rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.08));
+  border: 1px solid rgba(245, 158, 11, 0.14);
+  background: rgba(26, 23, 20, 0.72);
   overflow: hidden;
 }
 
@@ -41,16 +43,13 @@
 .contactInfo {
   flex: 0 0 260px;
   padding: var(--mantine-spacing-xl);
-  background: light-dark(
-    rgba(234, 88, 12, 0.06),
-    rgba(245, 158, 11, 0.08)
-  );
-  border-right: 1px solid light-dark(rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.08));
+  background: rgba(245, 158, 11, 0.08);
+  border-right: 1px solid rgba(245, 158, 11, 0.12);
 
   @media (max-width: 48em) {
     flex: none;
     border-right: none;
-    border-bottom: 1px solid light-dark(rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.08));
+    border-bottom: 1px solid rgba(245, 158, 11, 0.12);
     text-align: center;
   }
 }

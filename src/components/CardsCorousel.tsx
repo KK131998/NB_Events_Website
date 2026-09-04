@@ -2,8 +2,6 @@ import { Carousel } from "@mantine/carousel";
 import { Button, Container, Paper, Text, Title } from "@mantine/core";
 import { useMemo } from "react";
 import classes from "../styles/CardsCarousel.module.scss";
-import "@mantine/core/styles.css";
-import "@mantine/carousel/styles.css";
 
 interface CardProps {
   image: string;
@@ -141,9 +139,9 @@ export default function CardsCarousel({ events = [] }: { events: any[] }) {
         </div>
 
         <Carousel
-          slideSize="100%"
-          slideGap={0}
-          emblaOptions={{ align: "start", slidesToScroll: 1, loop: true }}
+          slideSize={{ base: "100%", md: slidesData.length > 1 ? "50%" : "100%" }}
+          slideGap="md"
+          emblaOptions={{ align: "start", slidesToScroll: 1, loop: slidesData.length > 1 }}
           withIndicators={slidesData.length > 1}
           classNames={{ indicators: classes.indicators }}
         >

@@ -1,5 +1,6 @@
 .section {
-  padding: var(--mantine-spacing-xl) 0;
+  padding: calc(var(--mantine-spacing-xl) * 2.25) 0;
+  background: rgba(245, 158, 11, 0.035);
 }
 
 .header {
@@ -8,17 +9,18 @@
 }
 
 .eyebrow {
-  color: light-dark(#ea580c, #f59e0b);
-  letter-spacing: 0.12em;
+  color: #fbbf24;
+  letter-spacing: 0.16em;
   margin-bottom: 0.25rem;
 }
 
 .title {
-  color: light-dark(var(--mantine-color-dark-9), var(--mantine-color-gray-0));
+  color: var(--mantine-color-gray-0);
   font-family: Outfit, var(--mantine-font-family);
-  font-size: clamp(1.5rem, 4vw, 2rem);
-  font-weight: 600;
+  font-size: clamp(1.5rem, 4vw, 2.15rem);
+  font-weight: 700;
   margin: 0;
+  letter-spacing: -0.03em;
 }
 
 .accordion {
@@ -28,17 +30,19 @@
 
 .item {
   border-radius: var(--mantine-radius-lg);
-  border: 1px solid light-dark(rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.08));
+  border: 1px solid rgba(245, 158, 11, 0.14);
+  background: rgba(26, 23, 20, 0.72);
   margin-bottom: var(--mantine-spacing-sm);
   overflow: hidden;
-  transition: box-shadow 0.2s ease;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
 
   &:last-child {
     margin-bottom: 0;
   }
 
   &[data-active] {
-    box-shadow: 0 4px 12px light-dark(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.15));
+    border-color: rgba(245, 158, 11, 0.35);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   }
 }
 
@@ -47,11 +51,11 @@
   font-family: Outfit, var(--mantine-font-family);
 
   &:hover {
-    background: light-dark(rgba(234, 88, 12, 0.04), rgba(245, 158, 11, 0.06));
+    background: rgba(245, 158, 11, 0.06);
   }
 
   [data-active] & {
-    color: light-dark(#ea580c, #f59e0b);
+    color: #fbbf24;
   }
 }
 

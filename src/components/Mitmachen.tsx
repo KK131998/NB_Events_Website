@@ -35,7 +35,7 @@ const STEPS = [
 
 export default function Mitmachen() {
   return (
-    <section className={classes.section}>
+    <section id="mitmachen" className={classes.section}>
       <Container size="lg">
         <Stack gap="xl">
           <div className={classes.header}>

@@ -9,53 +9,66 @@ import {
   Text,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { Link } from "react-router-dom";
+import classes from "../styles/GBTHeader.module.scss";
 
 const LINKS = [
-  { label: "Anmeldung", href: "#mitmachen" },
-  { label: "Standorte", href: "#standorte" },
-  { label: "Über Uns", href: "#ueberuns" },
-  { label: "FAQ", href: "#faq" },
-  { label: "Kontakt", href: "#kontakt" },
+  { label: "Mitmachen", href: "/#mitmachen" },
+  { label: "Termine", href: "/#termine" },
+  { label: "Standorte", href: "/#standorte" },
+  { label: "Über uns", href: "/#ueberuns" },
+  { label: "FAQ", href: "/#faq" },
+  { label: "Kontakt", href: "/#kontakt" },
 ];
 
 export default function GBTHeader() {
   const [opened, { toggle, close }] = useDisclosure(false);
 
   return (
-    <div
-      style={{
-        position: "sticky",
-        top: 0,
-        zIndex: 100,
-        backdropFilter: "saturate(180%) blur(10px)",
-        background: "transparent",
-        borderBottom: "1px solid rgba(0,0,0,.06)",
-      }}
-    >
-      <Container
-        size="lg"
-        style={{
-          height: 64,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Group gap="xs">
+    <header className={classes.header}>
+      <Container size="lg" className={classes.inner}>
+        <Link to="/" className={classes.brandLink}>
           <img
             src="/nikki_logo.jpeg"
             alt="NB Events"
-            style={{ height: 32, width: 32, borderRadius: 6 }}
+            className={classes.logo}
           />
-          <Text fw={700}>NB Events</Text>
+          <Text className={classes.brand}>NB Events</Text>
+        </Link>
+
+        <Group gap={4} visibleFrom="md" className={classes.links}>
+          {LINKS.map((l) => (
+            <Button
+              key={l.href}
+              variant="subtle"
+              component="a"
+              href={l.href}
+              className={classes.link}
+              size="sm"
+            >
+              {l.label}
+            </Button>
+          ))}
         </Group>
 
-        <Burger
-          opened={opened}
-          onClick={toggle}
-          aria-label="Menü"
-          color="orange"
-        />
+        <Group gap="sm">
+          <Button
+            component="a"
+            href="/#termine"
+            className={classes.cta}
+            size="sm"
+            visibleFrom="sm"
+          >
+            Tickets
+          </Button>
+          <Burger
+            opened={opened}
+            onClick={toggle}
+            aria-label="Menü"
+            color="orange"
+            hiddenFrom="md"
+          />
+        </Group>
       </Container>
 
       <Drawer
@@ -64,6 +77,7 @@ export default function GBTHeader() {
         padding="md"
         size="xs"
         title="Menü"
+        position="right"
       >
         <Stack gap="sm">
           {LINKS.map((l) => (
@@ -74,12 +88,22 @@ export default function GBTHeader() {
               href={l.href}
               onClick={close}
               color="orange"
+              className={classes.drawerLink}
             >
               {l.label}
             </Button>
           ))}
+          <Button
+            component="a"
+            href="/#termine"
+            onClick={close}
+            className={classes.cta}
+            mt="xs"
+          >
+            Tickets
+          </Button>
         </Stack>
       </Drawer>
-    </div>
+    </header>
   );
 }
